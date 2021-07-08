@@ -38,7 +38,7 @@ resource "azurerm_network_interface" "main" {
     name                          = "testconfiguration1"
     subnet_id                     = "${azurerm_subnet.internal.id}"
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = ${azurerm_public_ip.example.id}
+    public_ip_address_id          = azurerm_public_ip.example.id
   }
 }
 
@@ -51,7 +51,7 @@ resource "azurerm_linux_virtual_machine" "main" {
   admin_username      = "adminuser"
   admin_ssh_key {
     username   = "adminuser"
-    public_key = ${var.public_key}
+    public_key = var.public_key
   }
  os_disk {
     caching              = "ReadWrite"

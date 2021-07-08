@@ -1,0 +1,1 @@
+# terraform-azurevm-linux-test

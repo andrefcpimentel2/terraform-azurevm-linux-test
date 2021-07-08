@@ -13,3 +13,6 @@ variable "username" {
 variable "password" {
   default = "changeMe123!"
 }
+
+variable "public_key" {
+}

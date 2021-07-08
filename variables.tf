@@ -16,3 +16,6 @@ variable "password" {
 
 variable "public_key" {
 }
+
+variable "source_ip" {
+}

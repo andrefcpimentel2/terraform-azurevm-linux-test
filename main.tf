@@ -82,6 +82,9 @@ resource "azurerm_linux_virtual_machine" "main" {
     sku       = "16.04-LTS"
     version   = "latest"
   }
+  identity {
+    type = "SystemAssigned"
+  }
 }
 
 output "resource_group_name" {

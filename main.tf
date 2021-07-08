@@ -67,6 +67,8 @@ resource "azurerm_linux_virtual_machine" "main" {
   network_interface_ids = ["${azurerm_network_interface.main.id}"]
   size               = "Standard_DS1_v2"
   admin_username      = "adminuser"
+  admin_password = var.password
+  disable_password_authentication = false
   admin_ssh_key {
     username   = "adminuser"
     public_key = var.public_key

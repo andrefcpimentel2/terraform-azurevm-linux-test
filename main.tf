@@ -22,6 +22,24 @@ resource "azurerm_subnet" "internal" {
   address_prefix       = "10.0.2.0/24"
 }
 
+resource "azurerm_network_security_group" "example" {
+  name                = "ssh-azure-vm"
+  location            = "${azurerm_resource_group.main.location}"
+  resource_group_name = "${azurerm_resource_group.main.name}"
+
+  security_rule {
+    name                       = "ssh"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "22"
+    destination_port_range     = "*"
+    source_address_prefix      = var.source_ip
+    destination_address_prefix = "*"
+  }
+}
+
 resource "azurerm_public_ip" "example" {
   name                = "vm-test-ip"
   resource_group_name = "${azurerm_resource_group.main.name}"
@@ -47,7 +65,7 @@ resource "azurerm_linux_virtual_machine" "main" {
   location              = "${azurerm_resource_group.main.location}"
   resource_group_name   = "${azurerm_resource_group.main.name}"
   network_interface_ids = ["${azurerm_network_interface.main.id}"]
-  vm_size               = "Standard_DS1_v2"
+  size               = "Standard_DS1_v2"
   admin_username      = "adminuser"
   admin_ssh_key {
     username   = "adminuser"
@@ -70,10 +88,6 @@ output "resource_group_name" {
   value = azurerm_resource_group.main.name
 }
 
-output "vm_network_inerface" {
-  value = azurerm_network_interface.main.id
-}
-
 output "azure_vm_name" {
-  value = azurerm_virtual_machine.main.name
+  value = azurerm_linux_virtual_machine.main.public_ip_address
 }
